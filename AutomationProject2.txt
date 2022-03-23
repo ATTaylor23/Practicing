@@ -1,0 +1,184 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+import java.util.List;
+import java.util.Random;
+
+public class project {
+
+    private static WebDriver driver;
+
+
+
+    public static void main(String[] args) throws InterruptedException {
+
+        System.out.println("1 =====================================");
+
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\taylo\\" +
+                "Desktop\\Browser Drivers\\chromedriver_win32\\chromedriver.exe");
+        driver = new ChromeDriver();
+
+        System.out.println("2 =====================================");
+
+        driver.get("http://secure.smartbearsoftware.com/samples/TestComplete12/WebOrders/Login.aspx");
+
+        System.out.println("3 =====================================");
+
+        driver.findElement(By.name("ctl00$MainContent$username")).sendKeys("Tester");
+        driver.findElement(By.name("ctl00$MainContent$password")).sendKeys("test");
+        Thread.sleep(1000);
+        driver.findElement(By.name("ctl00$MainContent$login_button")).click();
+        Thread.sleep(1000);
+
+        System.out.println("4 =====================================");
+
+        driver.findElement(By.xpath("//a[@href='Process.aspx']")).click();
+
+        System.out.println("5 =====================================");
+
+        int randy = (int) (Math.random() * 98) + 1;
+        Actions act = new Actions(driver);
+        WebElement ele = driver.findElement(By.xpath("//ol/li[2]/input['@id=ctl00_MainContent_fmwOrder_txtQuantity']"));
+
+        act.doubleClick(ele).perform();
+        driver.findElement(By.xpath("//ol/li[2]/input['@id=ctl00_MainContent_fmwOrder_txtQuantity']")).sendKeys("" + randy);
+
+        System.out.println("6 =====================================");
+
+        driver.findElement(By.xpath("//input[@value='Calculate']")).click();
+
+        double expectedTotal = ((randy * 100) - ((randy * 100) * .08));
+        String str = Integer.toString((int) expectedTotal);
+
+        WebElement actualTotal = driver.findElement(By.xpath("//input[@name='ctl00$MainContent$fmwOrder$txtTotal']"));
+
+        if (actualTotal.getAttribute("value").contains(str)) {
+            System.out.println("PASSED");
+        } else {
+            System.out.println("FAILED");
+        }
+
+        System.out.println("7 =====================================");
+
+        String chars = "abcdefghijklmnopqrstuvwxyz";
+        Random randal = new Random();
+        StringBuilder sb = new StringBuilder();
+        StringBuilder customerName = new StringBuilder();
+        for (int i = 0; i < 7; i++) {
+            sb.append(chars.charAt(randal.nextInt(chars.length())));
+            customerName = sb;
+        }
+        driver.findElement(By.xpath("//input[@name='ctl00$MainContent$fmwOrder$txtName']")).sendKeys(customerName);
+
+        System.out.println("8 =====================================");
+
+        String chars2 = "1234567890";
+        StringBuilder sb2 = new StringBuilder();
+        StringBuilder sb3 = new StringBuilder();
+        String street = "";
+
+        for (int i = 0; i < 3; i++) {
+            sb2.append(chars2.charAt(randal.nextInt(chars2.length())));
+        }
+            for (int j = 0; j < 5; j++) {
+                sb3.append(chars.charAt(randal.nextInt(chars.length())));
+                street = (sb2 + " " + sb3 + " St.");
+        }
+        driver.findElement(By.xpath("//input[@name='ctl00$MainContent$fmwOrder$TextBox2']")).sendKeys(street);
+
+        System.out.println("9 =====================================");
+
+        String[] cities = {"City1", "City2", "City3", "City4", "City5", "City6", "City7", "City8", "City9", "City10"};
+        String randomCity = (cities[new Random().nextInt(cities.length)]);
+
+        driver.findElement(By.xpath("//input[@name='ctl00$MainContent$fmwOrder$TextBox3']")).sendKeys(randomCity);
+
+        System.out.println("10 =====================================");
+
+        String[] states = {"WV", "DC", "VA", "MD", "MA", "HI", "LA", "IL", "TX", "WA"};
+        String randomState = (states[new Random().nextInt(states.length)]);
+
+        driver.findElement(By.xpath("//input[@name='ctl00$MainContent$fmwOrder$TextBox4']")).sendKeys(randomState);
+
+        System.out.println("11 =====================================");
+
+        StringBuilder zipCode = new StringBuilder();
+
+        for(int i = 0; i < 5; i++){
+            zipCode.append(chars2.charAt(randal.nextInt(chars2.length())));
+        }
+        driver.findElement(By.xpath("//input[@name='ctl00$MainContent$fmwOrder$TextBox5']")).sendKeys(zipCode);
+
+        System.out.println("12 =====================================");
+
+        int randy2 = (int)(Math.random() * 3);
+        System.out.println(randy2);
+
+        if(randy2 == 0){
+            driver.findElement(By.xpath("//input[@name='ctl00$MainContent$fmwOrder$cardList'][@value='Visa']")).click();
+        }else if(randy2 == 1){
+            driver.findElement(By.xpath("//input[@name='ctl00$MainContent$fmwOrder$cardList'][@value='MasterCard']")).click();
+        }else if(randy2 == 2){
+            driver.findElement(By.xpath("//input[@name='ctl00$MainContent$fmwOrder$cardList'][@value='American Express']")).click();
+        }
+
+        System.out.println("13 =====================================");
+
+        if(randy2 == 0){
+            long V = (long) (100000000000000L + (long)(Math.random()*999999999999999L));
+            String visaCard = "4" + V;
+            driver.findElement(By.xpath("//input[@name='ctl00$MainContent$fmwOrder$TextBox6']")).sendKeys(visaCard);
+        }else if(randy2 == 1){
+            long MC = (long) (100000000000000L + (long)(Math.random()*99999999999999L));
+            String mcCard = "5" + MC;
+            driver.findElement(By.xpath("//input[@name='ctl00$MainContent$fmwOrder$TextBox6']")).sendKeys(mcCard);
+        }else if(randy2 == 2){
+            long AE = (long) (10000000000000L + (long)(Math.random()*99999999999999L));
+            String aeCard = "3" + AE;
+            driver.findElement(By.xpath("//input[@name='ctl00$MainContent$fmwOrder$TextBox6']")).sendKeys(aeCard);
+        }
+
+        System.out.println("14 =====================================");
+
+        String month = "";
+
+        int randy3 = (int)(1+(Math.random() * 12));
+        if(randy3 > 0 && randy3 < 10){
+            month = "0" + randy3;
+        }else{
+            month = randy3 + "";
+        }
+        Random r = new Random();
+        int year = 23 + r.nextInt(10);
+
+        String expiration = month + "/" + year;
+
+        driver.findElement(By.xpath("//input[@name='ctl00$MainContent$fmwOrder$TextBox1']")).sendKeys(expiration);
+
+        System.out.println("15 =====================================");
+
+        Thread.sleep(3000);
+        driver.findElement(By.xpath("//a[@href='javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(\"ctl00$MainContent$fmwOrder$InsertButton\", \"\", true, \"ordersGroup\", \"\", false, true))']")).click();
+
+        System.out.println("16 =====================================");
+
+        String actualElement = driver.findElement(By.xpath("//strong")).getText();
+        String expectedElement = "New order has been successfully added.";
+        if(actualElement.equals(expectedElement)){
+            System.out.println("PASSED");
+        }else{
+            System.out.println("FAILED");
+        }
+
+        System.out.println("17 =====================================");
+
+
+        driver.findElement(By.xpath("//a[@id='ctl00_logout']")).click();
+
+        Thread.sleep(3000);
+        driver.quit();
+    }
+}
